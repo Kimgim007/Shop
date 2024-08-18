@@ -15,87 +15,9 @@ namespace Shop.Tests
         [Test]
         public void GoToCart()
         {
-            Assert.That(HomePage.Cart.ElementDispleed(), Is.True);
-            HomePage.Cart.Click();
+            Assert.That(HeaderPage.Cart.ElementDispleed(), Is.True);
+            HeaderPage.Cart.Click();
             Assert.That(CartPage.CartTitle.GetText() == "SHOPPING-CART SUMMARY", Is.True);
-        }
-        [Test]
-        public void CheckHoverButtonVisibility()
-        {
-            var elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
-            for (int i = 0; i < elementFrom.Count; i++)
-            {
-                var element = elementFrom[i];
-                Assert.That(element.Displayed, Is.True);
-                var addToCartButton = element.FindElement(By.CssSelector("a.ajax_add_to_cart_button"));
-                var moreToCartButton = element.FindElement(By.CssSelector("a.lnk_view.btn.btn"));
-
-                Assert.That(addToCartButton.Displayed, Is.False);
-                Assert.That(moreToCartButton.Displayed, Is.False);
-
-                BasePage.ActionClassReturn().MoveToElement(element).Perform();
-
-                Assert.That(addToCartButton.Displayed, Is.True);
-                Assert.That(moreToCartButton.Displayed, Is.True);
-            }
-        }
-        [Test]
-        public void VerifyAddToCartButtonIsClickable()
-        {
-            var elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
-            IWebElement addToCartButton;
-
-            for (int i = 0; i < elementFrom.Count; i++)
-            {
-                var element = elementFrom[i];
-                Assert.That(element.Displayed, Is.True);
-                BasePage.ActionClassReturn().MoveToElement(element).Perform();
-                addToCartButton = element.FindElement(By.CssSelector("a.ajax_add_to_cart_button"));
-                Assert.That(addToCartButton.Enabled, Is.True);
-            }
-        }
-        [Test]
-        public void VerifyMoreToCartButtonIsClickable()
-        {
-            var elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
-            IWebElement moreToCartButton;
-
-            for (int i = 0; i < elementFrom.Count; i++)
-            {
-                var element = elementFrom[i];
-                Assert.That(element.Displayed, Is.True);
-                BasePage.ActionClassReturn().MoveToElement(element).Perform();
-                moreToCartButton = element.FindElement(By.CssSelector("a.lnk_view.btn.btn"));
-                Assert.That(moreToCartButton.Enabled, Is.True);
-            }
-        }
-        [Test]
-        public void CheckMoreFunctionality()
-        {
-            var elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
-            IWebElement moreToCartButton;
-            string ProductsLink;
-
-            for (int i = 0; i < elementFrom.Count; i++)
-            {
-                if (i > 0)
-                {
-                    elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
-                }
-                var element = elementFrom[i];
-                Assert.That(element.Displayed, Is.True);
-                BasePage.ActionClassReturn().MoveToElement(element).Perform();
-
-                moreToCartButton = element.FindElement(By.CssSelector("a.lnk_view.btn.btn"));
-                ProductsLink = BasePage.GetBaseUrl(element.FindElement(By.XPath(".//a[@class='product_img_link']")));
-
-                BasePage.ActionClassReturn().MoveToElement(moreToCartButton).Click().Perform();
-
-                var currentUrl = BasePage.CurrentUrlSite();
-                Assert.That(currentUrl == ProductsLink, Is.True);
-
-                HomePage.Header_logo.Click();
-            }
         }
         [Test]
         public void AddToCartPopularProductsFromHomePageFail()
@@ -121,70 +43,58 @@ namespace Shop.Tests
                 if (LayerCartPage.LayerCart.ElementDispleed())
                 {
                     LayerCartPage.Cross.Click();
-                    HomePage.Cart.Click();
+                    HeaderPage.Cart.Click();
+                    HeaderPage.Cart.WaitForElementVisible();
                 }
                 else
                 {
-                    HomePage.Cart.Click();
+                    HeaderPage.Cart.Click();
+                    HeaderPage.Cart.WaitForElementVisible();
                 }
-                //ЗАменить на что нибудь - Thread.Sleep(1000);!!!!
-                Thread.Sleep(1000);
-  
+
                 var allProductsLink = CartPage.AllProductLinks.FindElements().Select(q => BasePage.GetBaseUrl(q)).ToList();
 
                 try
                 {
                     Assert.That(allProductsLink.Contains(ProductsLink), Is.True);
                 }
-                catch(AssertionException) {
+                catch (AssertionException)
+                {
                     Assert.Pass();
-                }  
+                }
 
-                HomePage.Header_logo.Click();
+                HeaderPage.Header_logo.Click();
             }
 
         }
-
         [Test]
         public void TestPurchaseFlow()
         {
-            var elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
-            var product = elementFrom[0];
-            float howMachCostProduct;
+            Assert.That(HomePage.AddHomePageProductToCartAndVerifyDetails(0) != null, Is.True);
 
-            BasePage.ActionClassReturn().MoveToElement(product).Perform();
-            Assert.That(product.Displayed, Is.True);
+            CartPage.ProceedToCheckoutInSummary.Click();
+            AuthenticationPage.Login();
 
-            var addToCartButton = product.FindElement(By.CssSelector("a.ajax_add_to_cart_button"));
-            Assert.That(addToCartButton.Displayed, Is.True);
-            BasePage.ActionClassReturn().MoveToElement(product).MoveToElement(addToCartButton).Click().Perform();
-            var ProductsLink = BasePage.GetBaseUrl(product.FindElement(By.XPath(".//a[@class='product_img_link']"))); ;
-
-            if (LayerCartPage.LayerCart.ElementDispleed())
+            if(MyAccountPage.PageName.ElementDispleed())
             {
-                LayerCartPage.Cross.Click();
-                Assert.That(LayerCartPage.ProceedToChekoutButton.ElementDispleed(), Is.True);
-                LayerCartPage.ProceedToChekoutButton.Click();
+                HeaderPage.Cart.Click();
+                CartPage.ProceedToCheckoutInSummary.Click();
             }
-            else
-            {
-                HomePage.Cart.Click();
-            }
-            //ЗАменить на что нибудь - Thread.Sleep(1000);!!!!
-            Thread.Sleep(1000);
 
-            var allProductsLink = CartPage.AllProductLinks.FindElements().Select(q => BasePage.GetBaseUrl(q)).ToList();
-        }
+            CartPage.ProceedToCheckoutInAddressAndShipping.Click();
+            CartPage.TermsOfService.Click();
+            Assert.That(CartPage.TermsOfService.IsInputFocused(), Is.True);
+            CartPage.ProceedToCheckoutInAddressAndShipping.Click();
 
-        [Test]
-        public void LayerCartP()
-        {
-
+            Assert.That(CartPage.AlertWarningPayment.ElementDispleed(), Is.False);
         }
         [Test]
         public void DeleteFromCart()
         {
-
+            HomePage.AddHomePageProductToCartAndVerifyDetails(0);
+            CartPage.RemoveFirstProductFromCart.Click();
+            CartPage.ProceedToCheckoutInSummary.Click();
+            Assert.That(CartPage.EmptyCatTitle.ElementEnabled(), Is.True);
         }
         [Test]
         public void VerifyCartItems()

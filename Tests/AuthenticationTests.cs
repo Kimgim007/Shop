@@ -13,11 +13,11 @@ namespace Shop.Tests
         [Test]
         public void SingInAccount()
         {
-            Assert.That(HomePage.SingInButton.ElementDispleed(), Is.True);
-            HomePage.SingInButton.Click();
+            Assert.That(HeaderPage.SingInButton.ElementDispleed(), Is.True);
+            HeaderPage.SingInButton.Click();
             AuthenticationPage.Login();
-            var text = MyAccountPage.PageHeading.GetText();
-            Assert.That(MyAccountPage.PageHeading.GetText() == "MY ACCOUNT", Is.True);
+            var text = MyAccountPage.PageName.GetText();
+            Assert.That(MyAccountPage.PageName.GetText() == "MY ACCOUNT", Is.True);
         }
 
         [Test]

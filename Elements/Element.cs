@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shop.WebDrive;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace Shop.Elements
 {
@@ -33,7 +35,10 @@ namespace Shop.Elements
         {
             Driver.WaitDriver(Driver.GetDriver(), 20).Until(q => q.FindElements(_locator).Count > 0);
         }
-
+        public void WaitForElementVisible()
+        {
+            Driver.WaitDriver(Driver.GetDriver(), 20).Until(ExpectedConditions.ElementIsVisible(_locator));
+        }
         public void SentValue(string value)
         {
             ScrollToElement();
@@ -43,6 +48,20 @@ namespace Shop.Elements
         {
             ScrollToElement();
             var element = webElement.GetAttribute("value");
+            return element;
+
+        }
+        public string GetUrl()
+        {
+            ScrollToElement();
+            var element = webElement.GetAttribute($"href");
+            return element;
+
+        }
+        public string GetAttribute(string attribute)
+        {
+            ScrollToElement();
+            var element = webElement.GetAttribute($"{attribute}");
             return element;
 
         }
@@ -57,6 +76,12 @@ namespace Shop.Elements
             ScrollToElement();
             IList<IWebElement> sortContainerElements = webElement.FindElements(By.XPath("./*"));
 
+            return sortContainerElements;
+        }
+        public IWebElement FindElement(By by)
+        {
+            ScrollToElement();
+            IWebElement sortContainerElements = webElement.FindElement(by);
             return sortContainerElements;
         }
         public IList<IWebElement> FindElements()
@@ -77,7 +102,11 @@ namespace Shop.Elements
             ScrollToElement();
             webElement.Click();
         }
-
+        public bool Clickable()
+        {
+            ScrollToElement();
+            return webElement.Enabled;
+        }
         public void ScrollPane(int downPixel)
         {
             action.DragAndDropToOffset(webElement, 0, downPixel).Perform();
@@ -86,6 +115,11 @@ namespace Shop.Elements
         public void ScrollToElement()
         {
             ((IJavaScriptExecutor)Driver.GetDriver()).ExecuteScript("arguments[0].scrollIntoView(true);", webElement);
+
+        }
+        public void MoveToElement()
+        {
+            action.MoveToElement(webElement).Perform();
 
         }
         public string GetText() => webElement.Text;

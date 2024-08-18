@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using Shop.Elements;
 using Shop.WebDrive;
 using System;
@@ -13,8 +15,9 @@ namespace Shop.Pages
     internal class BasePage
     {
         private static Actions actions = new Actions(Driver.GetDriver());
+        private static WebDriverWait wait = new WebDriverWait(Driver.GetDriver(), TimeSpan.FromSeconds(10));
 
-        public const string login = "camop332@chaladas.com";
+        public const string login = "camop332888@chaladas.com";
         public const string password = "Secret_sauce082351";
 
         public const string firstName = "Joni";
@@ -31,7 +34,9 @@ namespace Shop.Pages
         public const string State = "Alabama";
         public const string AdditionalInformation = "N/A";
         public const string AliasAddress = "Home Address";
-        
+
+
+
 
         public static bool CheckExpectedText(Element field, string text)
         {
@@ -92,14 +97,27 @@ namespace Shop.Pages
         {
             var baseProductLink = new Uri(webElement.GetAttribute("href")).GetLeftPart(UriPartial.Path);
             return baseProductLink;
-
         }
-
         public static string CurrentUrlSite()
         {
-          
+            wait.Until(driver => driver.Url.Contains("/ru/"));
             return Driver.GetDriver().Url;
+        }
+        public static string ExtractColorAndSize(string text)
+        {
+
+            string[] parts = text.Split(new[] { "Color :", "Size :" }, StringSplitOptions.None);
+
+            // Извлечение и очистка значений
+            string color = parts[1].Split(',')[0].Trim();
+            string size = parts[2].Trim();
+
+            // Формирование строки вывода
+            string result = $"{color}, {size}";
+            return result ;
 
         }
+
+       
     }
 }

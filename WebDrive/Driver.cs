@@ -18,6 +18,7 @@ namespace Shop.WebDrive
         {
             ChromeOptions options = new ChromeOptions();
             options.AddArgument("--start-maximized");
+            options.AddArgument("--lang=en-US");
             if (driver == null)
             {
                 driver = new ChromeDriver(options);
