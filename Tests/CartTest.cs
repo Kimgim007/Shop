@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Tests
 {
-    [AllureNUnit]
+    [AllureNUnit] 
     internal class CartTest : BaseTest
     {
         [Test]
