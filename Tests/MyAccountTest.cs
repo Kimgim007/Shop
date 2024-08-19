@@ -36,7 +36,6 @@ namespace Shop.Tests
             MyAccountPage.MyAddresses.Click();
             Assert.That(MyAddressesPage.PageName.ElementDispleed(), Is.True);
         }
-
         [Test]
         public void VerifyHomeButton()
         {

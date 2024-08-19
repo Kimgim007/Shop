@@ -63,6 +63,7 @@ namespace Shop.Tests
         [Test]
         public void CheckMoreButtonFunctionality()
         {
+         
             var elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
             IWebElement moreToCartButton;
             string ProductsLink;
@@ -75,6 +76,8 @@ namespace Shop.Tests
                 }
                 var element = elementFrom[i];
                 Assert.That(element.Displayed, Is.True);
+
+                Thread.Sleep(2000);
                 BasePage.ActionClassReturn().MoveToElement(element).Perform();
 
                 moreToCartButton = element.FindElement(By.CssSelector("a.lnk_view.btn.btn"));
@@ -88,10 +91,6 @@ namespace Shop.Tests
                 HeaderPage.Header_logo.Click();
             }
         }
-        [Test]
-        public void FiltersAndSorting()
-        {
-
-        }
+       
     }
 }

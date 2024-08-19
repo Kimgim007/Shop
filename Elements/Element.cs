@@ -15,7 +15,7 @@ namespace Shop.Elements
     {
         private readonly By _locator;
 
-        private static Actions action = new Actions(Driver.GetDriver());
+        private static Actions action => new Actions(Driver.GetDriver());
         public Element(By locator)
         {
             this._locator = locator;
@@ -37,7 +37,13 @@ namespace Shop.Elements
         }
         public void WaitForElementVisible()
         {
+          
             Driver.WaitDriver(Driver.GetDriver(), 20).Until(ExpectedConditions.ElementIsVisible(_locator));
+        }
+        public void WaitForElementElementExists()
+        {
+      
+            Driver.WaitDriver(Driver.GetDriver(), 20).Until(ExpectedConditions.ElementExists(_locator));
         }
         public void SentValue(string value)
         {
@@ -81,7 +87,7 @@ namespace Shop.Elements
         public IWebElement FindElement(By by)
         {
             ScrollToElement();
-            IWebElement sortContainerElements = webElement.FindElement(by);
+            IWebElement sortContainerElements = Driver.WaitDriver(Driver.GetDriver(), 20).Until(q => webElement.FindElement(by));
             return sortContainerElements;
         }
         public IList<IWebElement> FindElements()

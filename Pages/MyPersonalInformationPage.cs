@@ -11,7 +11,7 @@ namespace Shop.Pages
     internal class MyPersonalInformationPage : BasePage
     {
         public static Element PageName => new Element(By.XPath("//*[@class='page-subheading']"));
-        
+
         public static Element RadioGender_1 => new Element(By.XPath("//*[@id='id_gender1']"));
         public static Element RadioGender_2 => new Element(By.XPath("//*[@id='id_gender2']"));
         public static Element FirstNameFieldForRegistration => new Element(By.XPath("//*[@id='customer_firstname']"));
@@ -28,7 +28,7 @@ namespace Shop.Pages
 
         public static Element DateOfBirthDays => new Element(By.XPath("//*[@id='days']"));
         public static Element DateOfBirthMonths => new Element(By.XPath("//*[@id='months']"));
-       
+
         public static Element FrameYears => new Element(By.XPath("//*[@id='cuselFrame-years']"));
         public static Element DateOfBirthYears => new Element(By.XPath("//*[@id='cusel-scroll-years']"));
         public static Element jScrollPaneDrag => new Element(By.XPath("//*[@class='jScrollPaneDrag']"));
@@ -60,7 +60,17 @@ namespace Shop.Pages
                 return false;
             }
             return true;
-                   
+
+        }
+
+        public static string GenerateRandomEmail()
+        {
+            Random _random = new Random();
+            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string localPart = new string(Enumerable.Repeat(chars, 10)
+                .Select(s => s[_random.Next(s.Length)]).ToArray());
+            string domain = "example.com";
+            return $"{localPart}@{domain}";
         }
     }
 }

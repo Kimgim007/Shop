@@ -19,17 +19,21 @@ namespace Shop.Tests
 
             BasePage.ActionClassReturn().MoveToElement(element).MoveToElement(addToCartButton).Click().Perform();
 
+            LayerCartPage.LayerCart.WaitForElementElementExists();
             LayerCartPage.LayerCart.WaitForElementVisible();
+
+            var asd = LayerCartPage.LayerCart.ElementDispleed();
             Assert.That(LayerCartPage.LayerCart.ElementDispleed(), Is.True);
         }
         [Test]
         public void ContinueShoppingButton()
         {
             var element = HomePage.HomeFeaturedProductsPopular.FindChildElements()[0];
-            var addToCartButton = element.FindElement(By.CssSelector("a.ajax_add_to_cart_button"));
+            var addToCartButton =  element.FindElement(By.CssSelector("a.ajax_add_to_cart_button"));
 
             BasePage.ActionClassReturn().MoveToElement(element).MoveToElement(addToCartButton).Click().Perform();
 
+            LayerCartPage.LayerCart.WaitForElementElementExists();
             LayerCartPage.LayerCart.WaitForElementVisible();
 
             Assert.That(LayerCartPage.ContinueShoppingButton.ElementDispleed(), Is.True);

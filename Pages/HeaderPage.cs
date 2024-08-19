@@ -40,7 +40,14 @@ namespace Shop.Pages
 
 
         public static Element LanguagesBlock => new Element(By.XPath("//*[@id='languages-block-top']"));
-        public static Element SetCurrency => new Element(By.XPath("//*[@id='setCurrency']/div"));
+        public static Element SetCurrency => new Element(By.XPath("//*[@id='setCurrency']"));
+
+        public static Element CurrencyEUR => new Element(By.XPath("//*[@id='setCurrency']/ul/li[3]/a"));
+        public static Element CurrencyUSD => new Element(By.XPath("//*[@id='setCurrency']/ul/li[2]/a"));
+        public static Element CurrencyUAH => new Element(By.XPath("//*[@id='setCurrency']/ul/li/a"));
+
+        public static Element CurrencySelected => new Element(By.XPath("//*[@id='setCurrency']/ul/li[@class='selected']/a"));
+
 
         public static void ScrollToElementAndMoveToElement(Element element)
         {
@@ -53,9 +60,46 @@ namespace Shop.Pages
             var elementLink = element.GetUrl();
             Assert.That(elementLink.Contains(urlCorrect), Is.True);
             element.Click();
-            var linkPage = BasePage.CurrentUrlSite();
+            var linkPage = CurrentUrlSite();
             return elementLink.Contains(linkPage);
 
+        }
+
+       
+        public static void LanguagesChange(string languageLocator, string fragmentUrlFragment)
+        {
+            LanguagesBlock.ScrollToElement();
+            LanguagesBlock.Click();
+            var Languages = new Element(By.XPath($"{languageLocator}"));
+            Languages.MoveToElement();
+            Languages.Click();
+            Assert.That(WaitForLanguageUrlUpdate($"{fragmentUrlFragment}").Contains($"{fragmentUrlFragment}"), Is.True);
+        }
+
+        public static void CurrencyChange(Element currency,string expectedCurrencyText)
+        {
+            SetCurrency.ScrollToElement();
+            SetCurrency.Click();
+
+            currency.WaitForElementVisible();
+            currency.MoveToElement();
+            currency.Click();
+
+            SetCurrency.WaitForElementVisible();
+
+            WaitForElementToUpdate(expectedCurrencyText, CurrencySelected);
+
+            var actualCurrencyText = CurrencySelected.GetAttribute("title");
+
+            Assert.That(actualCurrencyText.Contains(expectedCurrencyText), Is.True);
+        }
+
+        public static void VerifySubMenuSubMenu(Element SubMenuTriggerButton, Element SubMenuPanel)
+        {
+            SubMenuTriggerButton.ScrollToElement();
+            SubMenuTriggerButton.MoveToElement();
+            var sadasd = SubMenuPanel.GetAttribute("style");
+            Assert.That(SubMenuPanel.ElementEnabled() && SubMenuPanel.GetAttribute("style") != "display: none;", Is.True);
         }
     }
 

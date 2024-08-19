@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using Shop.Elements;
 using Shop.Pages;
 using System;
 using System.Collections.Generic;
@@ -13,20 +14,14 @@ namespace Shop.Tests
         [Test]
         public void VerifySubMenuWOMEN()
         {
-            HeaderPage.WOMENButton.ScrollToElement();
-            HeaderPage.WOMENButton.MoveToElement();
-            var sadasd = HeaderPage.SubMenuWOMENButton.GetAttribute("style");
-            Assert.That(HeaderPage.SubMenuWOMENButton.ElementEnabled() && HeaderPage.SubMenuWOMENButton.GetAttribute("style") != "display: none;", Is.True);
+            HeaderPage.VerifySubMenuSubMenu(HeaderPage.WOMENButton, HeaderPage.SubMenuWOMENButton);
 
         }
 
         [Test]
         public void VerifySubMenuSubMenuDRESSES()
         {
-            HeaderPage.DRESSESButton.ScrollToElement();
-            HeaderPage.DRESSESButton.MoveToElement();
-            var sadasd = HeaderPage.SubMenuDRESSESButton.GetAttribute("style");
-            Assert.That(HeaderPage.SubMenuDRESSESButton.ElementEnabled() && HeaderPage.SubMenuDRESSESButton.GetAttribute("style") != "display: none;", Is.True);
+            HeaderPage.VerifySubMenuSubMenu(HeaderPage.DRESSESButton, HeaderPage.SubMenuDRESSESButton);
         }
 
         [Test]
@@ -58,7 +53,7 @@ namespace Shop.Tests
 
             HeaderPage.ScrollToElementAndMoveToElement(HeaderPage.WOMENButton);
             Assert.That(HeaderPage.CheckElementUrl(HeaderPage.TOPSSubMenuWOMEN, correctUrlTOPSSubMenuWOMEN));
-        
+
             HeaderPage.ScrollToElementAndMoveToElement(HeaderPage.WOMENButton);
             Assert.That(HeaderPage.CheckElementUrl(HeaderPage.BlousesSubMenuWOMEN, correctUrlBlousesSubMenuWOMEN));
 
@@ -78,7 +73,7 @@ namespace Shop.Tests
             Assert.That(HeaderPage.CheckElementUrl(HeaderPage.JacketSubMenuWOMEN, correctUrlJacketSubMenuWOMEN));
 
             HeaderPage.ScrollToElementAndMoveToElement(HeaderPage.WOMENButton);
-            Assert.That(HeaderPage.CheckElementUrl(HeaderPage.SuitsSubMenuWOMEN, correctUrlSuitsSubMenuWOMEN));   
+            Assert.That(HeaderPage.CheckElementUrl(HeaderPage.SuitsSubMenuWOMEN, correctUrlSuitsSubMenuWOMEN));
 
             HeaderPage.ScrollToElementAndMoveToElement(HeaderPage.WOMENButton);
             Assert.That(HeaderPage.CheckElementUrl(HeaderPage.ShoesSubMenuWOMEN, correctUrlShoesSubMenuWOMEN));
@@ -87,28 +82,22 @@ namespace Shop.Tests
             Assert.That(HeaderPage.CheckElementUrl(HeaderPage.BagsSubMenuWOMEN, correctUrlBagsSubMenuWOMEN));
         }
 
-        [Test] 
+        [Test]
         public void CheckLanguageChange()
         {
- 
-
-            HeaderPage.LanguagesBlock.ScrollToElement();
-            HeaderPage.LanguagesBlock.Click();
-            var russianLanguages = HeaderPage.LanguagesBlock.FindElement(By.XPath("//*[@id='languages-block-top']/ul/li[1]/a"));
-            russianLanguages.Click();
-            Assert.That(BasePage.CurrentUrlSite().Contains("/ru/"), Is.True);
-
-            HeaderPage.LanguagesBlock.ScrollToElement();
-            HeaderPage.LanguagesBlock.Click();
-            var ukrainianLanguage = HeaderPage.LanguagesBlock.FindElement(By.XPath("//*[@id='languages-block-top']/ul/li[2]/a"));
-            ukrainianLanguage.Click();
-            Assert.That(BasePage.CurrentUrlSite().Contains("/uk/"), Is.True);
-
-            HeaderPage.LanguagesBlock.ScrollToElement();
-            HeaderPage.LanguagesBlock.Click();
-            var englishLanguage = HeaderPage.LanguagesBlock.FindElement(By.XPath("//*[@id='languages-block-top']/ul/li[3]/a"));
-            englishLanguage.Click();
-            Assert.That(BasePage.CurrentUrlSite().Contains("/en/"), Is.True);
+            HeaderPage.LanguagesChange("//*[@id='languages-block-top']/ul/li[1]/a", "/ru/");
+            HeaderPage.LanguagesChange("//*[@id='languages-block-top']/ul/li[2]/a", "/uk/");
+            HeaderPage.LanguagesChange("//*[@id='languages-block-top']/ul/li[3]/a", "/en/");
         }
+
+        [Test]
+        public void CheckCurrencyChange()
+        {
+            HeaderPage.CurrencyChange(HeaderPage.CurrencyEUR, "Евро");
+            HeaderPage.CurrencyChange(HeaderPage.CurrencyUSD, "Доллар");
+            HeaderPage.CurrencyChange(HeaderPage.CurrencyUAH, "Гривна");
+
+        }
+
     }
 }

@@ -10,12 +10,15 @@ namespace Shop.Tests
     internal class MyPersonalInformationTest : BaseTest
     {
         [Test]
+        [Order(1)]
         public void RegistrationAccount()
         {
             HeaderPage.SingInButton.Click();
 
+            var email = MyPersonalInformationPage.GenerateRandomEmail();
+
             Assert.That(AuthenticationPage.CreateAccountEmailField.ElementDispleed(), Is.True);
-            Assert.That(BasePage.ClickClearEnterVerify(AuthenticationPage.CreateAccountEmailField, BasePage.login), Is.True);
+            Assert.That(BasePage.ClickClearEnterVerify(AuthenticationPage.CreateAccountEmailField, email), Is.True);
             Assert.That(AuthenticationPage.CreateAnAccountButton.ElementDispleed(), Is.True);
             AuthenticationPage.CreateAnAccountButton.Click();
 
@@ -29,7 +32,7 @@ namespace Shop.Tests
             Assert.That(BasePage.ClickClearEnterVerify(MyPersonalInformationPage.LastNameFieldRegistration, BasePage.lastName), Is.True);
 
             Assert.That(MyPersonalInformationPage.DetailsEmailField.ElementDispleed(), Is.True);
-            Assert.That(BasePage.CheckExpectedText(MyPersonalInformationPage.DetailsEmailField, BasePage.login), Is.True);
+            Assert.That(BasePage.CheckExpectedText(MyPersonalInformationPage.DetailsEmailField, email), Is.True);
 
             Assert.That(MyPersonalInformationPage.PasswordFieldForCreateAccount.ElementDispleed(), Is.True);
             Assert.That(BasePage.ClickClearEnterVerify(MyPersonalInformationPage.PasswordFieldForCreateAccount, BasePage.password), Is.True);

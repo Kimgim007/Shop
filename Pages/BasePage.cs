@@ -14,8 +14,8 @@ namespace Shop.Pages
 {
     internal class BasePage
     {
-        private static Actions actions = new Actions(Driver.GetDriver());
-        private static WebDriverWait wait = new WebDriverWait(Driver.GetDriver(), TimeSpan.FromSeconds(10));
+
+        private static WebDriverWait wait => Driver.WaitDriver(Driver.GetDriver(), 30);
 
         public const string login = "camop332888@chaladas.com";
         public const string password = "Secret_sauce082351";
@@ -34,9 +34,6 @@ namespace Shop.Pages
         public const string State = "Alabama";
         public const string AdditionalInformation = "N/A";
         public const string AliasAddress = "Home Address";
-
-
-
 
         public static bool CheckExpectedText(Element field, string text)
         {
@@ -66,15 +63,15 @@ namespace Shop.Pages
             return true;
         }
 
-        public static void FillAndVerifyField(Element element,string textForComparison)
+        public static void FillAndVerifyField(Element element, string textForComparison)
         {
             Assert.That(element.ElementDispleed(), Is.True);
-            Assert.That(ClickClearEnterVerify(element,textForComparison), Is.True);
+            Assert.That(ClickClearEnterVerify(element, textForComparison), Is.True);
         }
 
         public static bool SelectDropdownOptionByText(Element dropdownElement, string optionText)
         {
-          
+
             dropdownElement.Click();
             var options = dropdownElement.FindChildElements();
             foreach (var option in options)
@@ -84,12 +81,13 @@ namespace Shop.Pages
                     option.Click();
                     return true;
                 }
-            }       
+            }
             return false;
         }
-        
+
         public static Actions ActionClassReturn()
         {
+            Actions actions = new Actions(Driver.GetDriver());
             return actions;
         }
 
@@ -98,9 +96,13 @@ namespace Shop.Pages
             var baseProductLink = new Uri(webElement.GetAttribute("href")).GetLeftPart(UriPartial.Path);
             return baseProductLink;
         }
+        public static string WaitForLanguageUrlUpdate(string languages)
+        {
+            wait.Until(driver => driver.Url.Contains($"{languages}"));
+            return Driver.GetDriver().Url;
+        }
         public static string CurrentUrlSite()
         {
-            wait.Until(driver => driver.Url.Contains("/ru/"));
             return Driver.GetDriver().Url;
         }
         public static string ExtractColorAndSize(string text)
@@ -114,10 +116,23 @@ namespace Shop.Pages
 
             // Формирование строки вывода
             string result = $"{color}, {size}";
-            return result ;
+            return result;
 
         }
 
-       
+        public static bool WaitForElementElementExists(IWebElement webElement)
+        {
+            return Driver.WaitDriver(Driver.GetDriver(), 20).Until(q => webElement.Displayed);
+        }
+        public static bool WaitForElementToUpdate(string text, Element element)
+        {
+            return wait.Until(driver =>
+            {
+                var actualCurrencyText = element.GetAttribute("title");
+                return actualCurrencyText.Contains(text);
+            });
+
+        }
     }
+
 }
