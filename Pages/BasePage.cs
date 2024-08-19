@@ -131,8 +131,12 @@ namespace Shop.Pages
                 var actualCurrencyText = element.GetAttribute("title");
                 return actualCurrencyText.Contains(text);
             });
-
         }
+        public static void AlertAccept()
+        {
+            Driver.GetDriver().SwitchTo().Alert().Accept();
+        }
+        
     }
 
 }

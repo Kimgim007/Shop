@@ -15,12 +15,7 @@ namespace Shop.Pages
 
         public static Element UpdateButton => new Element(By.XPath("//*[@class='address_update']/a[1]"));
         public static Element DeleteButton => new Element(By.XPath("//*[@class='address_update']/a[2]"));
-
         public static Element InformationBox => new Element(By.XPath("//*[@class='last_item item box']"));
-        
-        //public static Element q => new Element(By.XPath(""));
-        //public static Element q => new Element(By.XPath(""));
-        //public static Element q => new Element(By.XPath(""));
-        //public static Element q => new Element(By.XPath(""));
+        public static Element AddANewAddress => new Element(By.XPath("//*[@id='center_column']/div/a"));
     }
 }

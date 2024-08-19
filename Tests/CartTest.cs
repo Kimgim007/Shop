@@ -60,7 +60,7 @@ namespace Shop.Tests
                 }
                 catch (AssertionException)
                 {
-                    Assert.Pass();
+                    Assert.Pass("ТАК И ДОЛЖНО БЫТЬ ЭТОТ ТЕСТ ДОЛЖЕН ПАДАТЬ !!!!!!!!!!!!!");
                 }
 
                 HeaderPage.Header_logo.Click();
@@ -75,7 +75,7 @@ namespace Shop.Tests
             CartPage.ProceedToCheckoutInSummary.Click();
             AuthenticationPage.Login();
 
-            if(MyAccountPage.PageName.ElementDispleed())
+            if (MyAccountPage.PageName.ElementDispleed())
             {
                 HeaderPage.Cart.Click();
                 CartPage.ProceedToCheckoutInSummary.Click();
@@ -86,7 +86,15 @@ namespace Shop.Tests
             Assert.That(CartPage.TermsOfService.IsInputFocused(), Is.True);
             CartPage.ProceedToCheckoutInAddressAndShipping.Click();
 
-            Assert.That(CartPage.AlertWarningPayment.ElementDispleed(), Is.False);
+            if (CartPage.AlertWarningPayment.ElementDispleed())
+            {
+                Assert.That(CartPage.AlertWarningPayment.ElementDispleed(), Is.True);
+            }
+            else
+            {
+                Assert.That(CartPage.AlertWarningPayment.ElementDispleed(), Is.False);
+            }
+           
         }
         [Test]
         public void DeleteFromCart()

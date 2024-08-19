@@ -18,8 +18,17 @@ namespace Shop.Tests
         {
            
             AuthenticationPage.Login();
-
-            MyAccountPage.AddMyFirstAddressButton.Click();
+            if(MyAccountPage.AddMyFirstAddressButton.ElementDispleed())
+            {
+                MyAccountPage.AddMyFirstAddressButton.Click();
+            }
+            else
+            {
+                MyAccountPage.MyAddresses.Click();
+                MyAddressesPage.DeleteButton.Click();
+                BasePage.AlertAccept();
+                MyAddressesPage.AddANewAddress.Click();
+            }
 
             YourAddressesPage.FillAddressDetails(BasePage.firstName, BasePage.lastName, BasePage.Company,
                 BasePage.Address, BasePage.AddressLineTwo, BasePage.ZipPostalCode,
