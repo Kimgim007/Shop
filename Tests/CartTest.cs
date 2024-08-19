@@ -106,21 +106,6 @@ namespace Shop.Tests
             CartPage.ProceedToCheckoutInSummary.Click();
             Assert.That(CartPage.EmptyCatTitle.ElementEnabled(), Is.True);
         }
-        [Test]
-        public void VerifyCartItems()
-        {
-
-        }
-        [Test]
-        public void BuyThings()
-        {
-
-        }
-        [Test]
-        public void VerifyCartIsEmpty()
-        {
-
-        }
-
+       
     }
 }
