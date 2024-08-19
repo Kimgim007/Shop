@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Core;
+using OpenQA.Selenium;
 using Shop.Pages;
 using Shop.WebDrive;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Tests
 {
+    [AllureNUnit]
     internal class YourAddressesTest : BaseTest
     {
         [Test]

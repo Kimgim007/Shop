@@ -1,4 +1,5 @@
-﻿using Shop.WebDrive;
+﻿using NUnit.Allure.Core;
+using Shop.WebDrive;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Tests
 {
+    [AllureNUnit]
     internal class BaseTest
     {
         [SetUp]

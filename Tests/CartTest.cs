@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Core;
+using OpenQA.Selenium;
 using Shop.Pages;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Tests
 {
+    [AllureNUnit]
     internal class CartTest : BaseTest
     {
         [Test]

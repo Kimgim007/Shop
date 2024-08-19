@@ -1,4 +1,5 @@
-﻿using Shop.Pages;
+﻿using NUnit.Allure.Core;
+using Shop.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Shop.Tests
 {
+    [AllureNUnit]
     internal class MyAccountTest:BaseTest
     {
         [Test]
