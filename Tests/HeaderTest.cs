@@ -1,10 +1,13 @@
-﻿using NUnit.Allure.Core;
+﻿using Newtonsoft.Json.Linq;
+using NUnit.Allure.Core;
 using OpenQA.Selenium;
+using RestSharp;
 using Shop.Elements;
 using Shop.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -101,5 +104,57 @@ namespace Shop.Tests
 
         }
 
+        [Test]
+        public void CheckSearchFieldResponse()
+        {
+            var client = new RestClient(BaseUrl);
+
+            var request = new RestRequest("search", Method.Get);
+            request.AddParameter("q", "Printed Dress");
+            var response = client.Execute(request);
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+    
+        }
+
+        [Test]
+        public void LongQueryFail()
+        {
+            var client = new RestClient(BaseUrl);
+
+            var request = new RestRequest("search", Method.Get);
+            string longQuery = new string('a', 50000);
+            request.AddParameter("q", $"{longQuery}");
+
+            var response = client.Execute(request);
+            var statcod = response.StatusCode;
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.RequestUriTooLong));
+        }
+
+        [Test]
+        public void InvalidPageNumber_Returns302Fail()
+        {
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = false 
+            };
+            using var httpClient = new HttpClient(handler)
+            {
+                BaseAddress = new Uri(BaseUrl)
+            };
+
+            var client = new RestClient(httpClient);
+
+            var request = new RestRequest("search", Method.Get);
+            request.AddParameter("search_query", "Dress");
+            request.AddParameter("p", 6);
+
+            var response = client.Execute(request);
+
+            var statCode = response.StatusCode;
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Redirect));
+
+        }
     }
 }

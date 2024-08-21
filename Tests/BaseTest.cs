@@ -11,10 +11,11 @@ namespace Shop.Tests
     [AllureNUnit]
     internal class BaseTest
     {
+        public const string BaseUrl = "http://prestashop.qatestlab.com.ua/ru/";
         [SetUp]
         public void SetUp()
         {
-            Driver.GetDriver().Navigate().GoToUrl("http://prestashop.qatestlab.com.ua/ru/");
+            Driver.GetDriver().Navigate().GoToUrl(BaseUrl);
         }
         [TearDown]
         public void TearDown()
