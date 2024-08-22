@@ -16,8 +16,6 @@ namespace Shop.Pages
         public static Element BestSellersButton => new Element(By.XPath("//*[@id='home-page-tabs']/li[2]/a"));
         public static Element HomeFeaturedProductsPopular => new Element(By.XPath("//*[@id='homefeatured']"));
 
-     
-
         public static Element SliderRow => new Element(By.XPath("//div[@id='slider_row']"));
 
         public static IWebElement AddHomePageProductToCartAndVerifyDetails(int index)

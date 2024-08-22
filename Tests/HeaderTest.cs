@@ -147,7 +147,7 @@ namespace Shop.Tests
 
             var request = new RestRequest("search", Method.Get);
             request.AddParameter("search_query", "Dress");
-            request.AddParameter("p", 6);
+            request.AddParameter("p", -1);
 
             var response = client.Execute(request);
 

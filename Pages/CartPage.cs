@@ -26,9 +26,6 @@ namespace Shop.Pages
         public static Element TermsOfService => new Element(By.XPath("//*[@id='cgv']"));
 
         public static Element AlertWarningPayment => new Element(By.XPath("//*[@id='center_column']/div/p"));
-        //public static Element q => new Element(By.XPath(""));
-        //public static Element q => new Element(By.XPath(""));
-        //public static Element q => new Element(By.XPath(""));
-        //public static Element q => new Element(By.XPath(""));
+
     }
 }
