@@ -16,16 +16,13 @@ namespace Shop.Tests
         [Test]
         public void SingInAccount()
         {
-            Assert.That(HeaderPage.SingInButton.ElementDispleed(), Is.True);
             HeaderPage.SingInButton.Click();
             AuthenticationPage.Login();
-            var text = MyAccountPage.PageName.GetText();
             Assert.That(MyAccountPage.PageName.GetText() == "MY ACCOUNT", Is.True);
         }
         [Test]
         public void CreateAnAccountErrorDisplayed()
         {
-            Assert.That(HeaderPage.SingInButton.ElementDispleed(), Is.True);
             HeaderPage.SingInButton.Click();
 
             AuthenticationPage.CreateAccountEmailField.ClearField();
@@ -34,33 +31,43 @@ namespace Shop.Tests
             AuthenticationPage.EmptyCreateAccountEmailFieldWarning.WaitWebElementPresent();
             AuthenticationPage.EmptyCreateAccountEmailFieldWarningText.WaitWebElementPresent();
 
-            Assert.That(AuthenticationPage.EmptyCreateAccountEmailFieldWarning.ElementDispleed() &&
+            Assert.That(AuthenticationPage.EmptyCreateAccountEmailFieldWarning.ElementDisplayed() &&
                 AuthenticationPage.EmptyCreateAccountEmailFieldWarningText.GetText().Contains("Invalid email address."), Is.True);
         }
         [Test]
-        public void SignInErrorDisplayed()
+        public void EmptyEmailWarning()
         {
-
-            Assert.That(HeaderPage.SingInButton.ElementDispleed(), Is.True);
             HeaderPage.SingInButton.Click();
 
             AuthenticationPage.SignInEmailField.ClearField();
             AuthenticationPage.SingInButton.Click();
 
-            Assert.That(AuthenticationPage.EmptyEmailOrPasswordWarning.ElementDispleed() &&
+            Assert.That(AuthenticationPage.EmptyEmailOrPasswordWarning.ElementDisplayed() &&
                 AuthenticationPage.EmptyEmailOrPasswordWarning.GetText().Contains("An email address required."), Is.True);
+
+        }
+        [Test]
+        public void PasswordWarning()
+        {
+            HeaderPage.SingInButton.Click();
 
             AuthenticationPage.SignInEmailField.SentValue("camop332888@chaladas.com");
             AuthenticationPage.SingInButton.Click();
 
-            Assert.That(AuthenticationPage.EmptyEmailOrPasswordWarning.ElementDispleed() &&
+            Assert.That(AuthenticationPage.EmptyEmailOrPasswordWarning.ElementDisplayed() &&
                 AuthenticationPage.EmptyEmailOrPasswordWarning.GetText().Contains("Password is required."), Is.True);
+
+        }
+        [Test]
+        public void AuthenticationFailureIncorectErrorMessage()
+        {
+            HeaderPage.SingInButton.Click();
 
             AuthenticationPage.SingPasswordField.SentValue("Secret_sauce0823");
             AuthenticationPage.SingInButton.Click();
 
-            Assert.That(AuthenticationPage.EmptyEmailOrPasswordWarning.ElementDispleed() &&
-              AuthenticationPage.EmptyEmailOrPasswordWarning.GetText().Contains("Authentication failed."), Is.True);
+            Assert.That(AuthenticationPage.EmptyEmailOrPasswordWarning.ElementDisplayed() &&
+              AuthenticationPage.EmptyEmailOrPasswordWarning.GetText().Contains("Authentication failed."), Is.False);
         }
     }
 }

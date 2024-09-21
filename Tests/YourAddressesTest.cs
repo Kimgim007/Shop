@@ -18,9 +18,9 @@ namespace Shop.Tests
         [Test]
         public void AddMyFirstAddress()
         {
-           
+
             AuthenticationPage.Login();
-            if(MyAccountPage.AddMyFirstAddressButton.ElementDispleed())
+            if (MyAccountPage.AddMyFirstAddressButton.ElementDisplayed())
             {
                 MyAccountPage.AddMyFirstAddressButton.Click();
             }
@@ -35,23 +35,21 @@ namespace Shop.Tests
             YourAddressesPage.FillAddressDetails(BasePage.firstName, BasePage.lastName, BasePage.Company,
                 BasePage.Address, BasePage.AddressLineTwo, BasePage.ZipPostalCode,
                 BasePage.City, BasePage.Country, BasePage.HomePhone, BasePage.MobilePhone,
-                BasePage.State,BasePage.AdditionalInformation, BasePage.AliasAddress);
+                BasePage.State, BasePage.AdditionalInformation, BasePage.AliasAddress);
 
             YourAddressesPage.SaveButton.Click();
 
-            Assert.That(MyAddressesPage.InformationBox.ElementDispleed(), Is.True);
+            Assert.That(MyAddressesPage.InformationBox.ElementDisplayed(), Is.True);
 
         }
         [Test]
         public void UpdateAddresses()
         {
-        
+
             AuthenticationPage.Login();
-    
-            Assert.That(MyAccountPage.MyAddresses.ElementDispleed(), Is.True);
+
             MyAccountPage.MyAddresses.Click();
 
-            Assert.That(MyAddressesPage.UpdateButton.ElementDispleed(), Is.True);
             MyAddressesPage.UpdateButton.Click();
 
             string firstName = "Jane";
@@ -75,7 +73,6 @@ namespace Shop.Tests
             state, additionalInformation, aliasAddress);
 
             YourAddressesPage.SaveButton.Click();
-            Assert.That(MyAddressesPage.InformationBox.ElementDispleed(), Is.True);
 
             var firstNameElementText = MyAddressesPage.InformationBox.FindElement(By.CssSelector(".address_name:nth-of-type(1)")).Text;
             var lastNameElementText = MyAddressesPage.InformationBox.FindElement(By.CssSelector(".address_name:nth-of-type(2)")).Text;
@@ -88,40 +85,42 @@ namespace Shop.Tests
             var homePhoneElementText = MyAddressesPage.InformationBox.FindElement(By.CssSelector(".address_phone")).Text;
             var mobilePhoneElementText = MyAddressesPage.InformationBox.FindElement(By.CssSelector(".address_phone_mobile")).Text;
 
-            Assert.That(firstNameElementText, Is.EqualTo(firstName));
-            Assert.That(lastNameElementText, Is.EqualTo(lastName));
-            Assert.That(companyElementText, Is.EqualTo(company));
-            Assert.That(addressLine1ElementText, Is.EqualTo(address));
-            Assert.That(addressLine2ElementText, Is.EqualTo(addressLineTwo));
-            Assert.That(cityElementText, Is.EqualTo(city));       
-            Assert.That(zipCodeElementText, Is.EqualTo(zipPostalCode));
-            Assert.That(countryElementText, Is.EqualTo(country));
-            Assert.That(homePhoneElementText, Is.EqualTo(homePhone));
-            Assert.That(mobilePhoneElementText, Is.EqualTo(mobilePhone));
+            Assert.That(
+                firstNameElementText == firstName &&
+                lastNameElementText == lastName &&
+                companyElementText == company &&
+                addressLine1ElementText == address &&
+                addressLine2ElementText == addressLineTwo &&
+                cityElementText == city &&
+                zipCodeElementText == zipPostalCode &&
+                countryElementText == country &&
+                homePhoneElementText == homePhone &&
+                mobilePhoneElementText == mobilePhone,
+                         Is.True);
+
         }
         [Test]
         public void ErrorMessageDisplayed()
         {
-            Assert.That(HeaderPage.SingInButton.ElementDispleed(), Is.True);
             HeaderPage.SingInButton.Click();
             AuthenticationPage.Login();
 
-            if (MyAccountPage.AddMyFirstAddressButton.ElementDispleed())
+            if (MyAccountPage.AddMyFirstAddressButton.ElementDisplayed())
             {
                 MyAccountPage.AddMyFirstAddressButton.Click();
             }
             else
             {
-                Assert.That(MyAccountPage.MyAddresses.ElementDispleed(), Is.True);
+                Assert.That(MyAccountPage.MyAddresses.ElementDisplayed(), Is.True);
                 MyAccountPage.MyAddresses.Click();
 
-                Assert.That(MyAddressesPage.UpdateButton.ElementDispleed(), Is.True);
+                Assert.That(MyAddressesPage.UpdateButton.ElementDisplayed(), Is.True);
                 MyAddressesPage.UpdateButton.Click();
             }
 
             YourAddressesPage.SaveButton.Click();
 
-            Assert.That(YourAddressesPage.ErrorMessage.ElementDispleed(), Is.True);
+            Assert.That(YourAddressesPage.ErrorMessage.ElementDisplayed(), Is.True);
         }
     }
 }

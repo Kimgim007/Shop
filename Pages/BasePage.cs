@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Shop.Pages
 {
@@ -44,10 +45,16 @@ namespace Shop.Pages
             return true;
         }
 
-        public static bool ClickClearEnterVerify(Element element, string text)
+        public static void ClickClearEnter(Element element, string text)
         {
             element.ClearField();
             element.SentValue($"{text}");
+        }
+
+        public static bool ClickClearEnterVerify(Element element, string text)
+        {
+            ClickClearEnter(element, text);
+
             var elementForDebug = element.GetValue();
             if (elementForDebug == null || elementForDebug.Length == 0 || elementForDebug != text)
             {
@@ -55,18 +62,15 @@ namespace Shop.Pages
             }
             return true;
         }
-
-        public static bool WorkWithInput(Element element)
-        {
-            element.Click();
-            var debugDot = element.IsInputFocused();
-            return true;
-        }
-
         public static void FillAndVerifyField(Element element, string textForComparison)
         {
-            Assert.That(element.ElementDispleed(), Is.True);
+            Assert.That(element.ElementDisplayed(), Is.True);
             Assert.That(ClickClearEnterVerify(element, textForComparison), Is.True);
+        }
+
+        public static void WorkWithInput(Element element)
+        {
+            element.Click(); 
         }
 
         public static bool SelectDropdownOptionByText(Element dropdownElement, string optionText)
@@ -101,9 +105,19 @@ namespace Shop.Pages
             wait.Until(driver => driver.Url.Contains($"{languages}"));
             return Driver.GetDriver().Url;
         }
+        public static bool WaitUntielElementDisappears(Element element)
+        {
+            var answer = wait.Until(driver =>
+            {
+                var actualCurrencyText = element.ElementDisplayed();
+                return actualCurrencyText == false;
+            });
+            return answer;
+        }
         public static string CurrentUrlSite()
         {
             return Driver.GetDriver().Url;
+
         }
         public static string ExtractColorAndSize(string text)
         {
@@ -136,7 +150,7 @@ namespace Shop.Pages
         {
             Driver.GetDriver().SwitchTo().Alert().Accept();
         }
-        
+
     }
 
 }

@@ -20,7 +20,6 @@ namespace Shop.Tests
         public void VerifySubMenuWOMEN()
         {
             HeaderPage.VerifySubMenuSubMenu(HeaderPage.WOMENButton, HeaderPage.SubMenuWOMENButton);
-
         }
 
         [Test]
@@ -90,17 +89,17 @@ namespace Shop.Tests
         [Test]
         public void CheckLanguageChange()
         {
-            HeaderPage.LanguagesChange("//*[@id='languages-block-top']/ul/li[1]/a", "/ru/");
-            HeaderPage.LanguagesChange("//*[@id='languages-block-top']/ul/li[2]/a", "/uk/");
-            HeaderPage.LanguagesChange("//*[@id='languages-block-top']/ul/li[3]/a", "/en/");
+            HeaderPage.LanguagesChange("//*[@id='languages-block-top']/ul/li[1]/a", "/ru/", "Корзина");
+            HeaderPage.LanguagesChange("//*[@id='languages-block-top']/ul/li[2]/a", "/uk/", "Кошик");
+            HeaderPage.LanguagesChange("//*[@id='languages-block-top']/ul/li[3]/a", "/en/", "Cart");
         }
 
         [Test]
         public void CheckCurrencyChange()
         {
-            HeaderPage.CurrencyChange(HeaderPage.CurrencyEUR, "Евро");
-            HeaderPage.CurrencyChange(HeaderPage.CurrencyUSD, "Доллар");
-            HeaderPage.CurrencyChange(HeaderPage.CurrencyUAH, "Гривна");
+            HeaderPage.CurrencyChange(HeaderPage.CurrencyEUR, "Евро", "€");
+            HeaderPage.CurrencyChange(HeaderPage.CurrencyUSD, "Доллар", "$");
+            HeaderPage.CurrencyChange(HeaderPage.CurrencyUAH, "Гривна", "₴");
 
         }
 
@@ -114,7 +113,7 @@ namespace Shop.Tests
             var response = client.Execute(request);
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-    
+
         }
 
         [Test]
@@ -136,7 +135,7 @@ namespace Shop.Tests
         {
             var handler = new HttpClientHandler
             {
-                AllowAutoRedirect = false 
+                AllowAutoRedirect = false
             };
             using var httpClient = new HttpClient(handler)
             {

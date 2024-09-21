@@ -27,5 +27,6 @@ namespace Shop.Pages
 
         public static Element AlertWarningPayment => new Element(By.XPath("//*[@id='center_column']/div/p"));
 
+        //public static Element q => new Element(By.("//*[@id='center_column']/div/p"));
     }
 }

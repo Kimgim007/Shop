@@ -15,6 +15,8 @@ namespace Shop.Tests
         [SetUp]
         public void SetUp()
         {
+           
+            //Driver.GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             Driver.GetDriver().Navigate().GoToUrl(BaseUrl);
         }
         [TearDown]

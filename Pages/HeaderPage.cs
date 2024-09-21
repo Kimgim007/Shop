@@ -13,6 +13,7 @@ namespace Shop.Pages
 
         public static Element SingInButton => new Element(By.XPath("//*[@class='login']"));
         public static Element FieldSearch => new Element(By.XPath("//*[@id='search_query_top']"));
+        public static Element Account => new Element(By.XPath("//*[@class='account']"));
 
         public static Element Header_logo => new Element(By.XPath("//*[@id='header_logo']/a"));
         public static Element Cart => new Element(By.XPath("//div[@class='shopping_cart']/a"));
@@ -65,18 +66,18 @@ namespace Shop.Pages
 
         }
 
-       
-        public static void LanguagesChange(string languageLocator, string fragmentUrlFragment)
+        public static void LanguagesChange(string languageLocator, string fragmentUrlFragment, string textButton)
         {
             LanguagesBlock.ScrollToElement();
             LanguagesBlock.Click();
             var Languages = new Element(By.XPath($"{languageLocator}"));
             Languages.MoveToElement();
             Languages.Click();
-            Assert.That(WaitForLanguageUrlUpdate($"{fragmentUrlFragment}").Contains($"{fragmentUrlFragment}"), Is.True);
+            var text = Cart.GetText().Contains(textButton);
+            Assert.That(WaitForLanguageUrlUpdate($"{fragmentUrlFragment}").Contains($"{fragmentUrlFragment}") && Cart.GetText().Contains(textButton), Is.True);
         }
 
-        public static void CurrencyChange(Element currency,string expectedCurrencyText)
+        public static void CurrencyChange(Element currency, string expectedCurrencyText, string currencySing)
         {
             SetCurrency.ScrollToElement();
             SetCurrency.Click();
@@ -91,7 +92,9 @@ namespace Shop.Pages
 
             var actualCurrencyText = CurrencySelected.GetAttribute("title");
 
-            Assert.That(actualCurrencyText.Contains(expectedCurrencyText), Is.True);
+            var currencySingElement = HomePage.HomeFeaturedProductsPopular.FindChildElements()[0].FindElement(By.XPath("//*[@class='right-block']/div/span")).Text;
+
+            Assert.That(actualCurrencyText.Contains(expectedCurrencyText) && currencySingElement.Contains(currencySing), Is.True);
         }
 
         public static void VerifySubMenuSubMenu(Element SubMenuTriggerButton, Element SubMenuPanel)

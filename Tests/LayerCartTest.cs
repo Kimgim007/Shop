@@ -24,8 +24,7 @@ namespace Shop.Tests
             LayerCartPage.LayerCart.WaitForElementElementExists();
             LayerCartPage.LayerCart.WaitForElementVisible();
 
-            var asd = LayerCartPage.LayerCart.ElementDispleed();
-            Assert.That(LayerCartPage.LayerCart.ElementDispleed(), Is.True);
+            Assert.That(LayerCartPage.LayerCart.ElementDisplayed(), Is.True);
         }
         [Test]
         public void ContinueShoppingButton()
@@ -38,11 +37,9 @@ namespace Shop.Tests
             LayerCartPage.LayerCart.WaitForElementElementExists();
             LayerCartPage.LayerCart.WaitForElementVisible();
 
-            Assert.That(LayerCartPage.ContinueShoppingButton.ElementDispleed(), Is.True);
-
             LayerCartPage.ContinueShoppingButton.Click();
-            Thread.Sleep(500);
-            Assert.That(LayerCartPage.LayerCart.ElementDispleed(), Is.False);
+            LayerCartPage.WaitUntielElementDisappears(LayerCartPage.LayerCart);
+            Assert.That(LayerCartPage.LayerCart.ElementDisplayed(), Is.False);
         }
         [Test]
         public void ProceedToChekoutButton()
@@ -52,10 +49,10 @@ namespace Shop.Tests
 
             BasePage.ActionClassReturn().MoveToElement(element).MoveToElement(addToCartButton).Click().Perform();
             LayerCartPage.LayerCart.WaitForElementVisible();
-            Assert.That(LayerCartPage.ProceedToChekoutButton.ElementDispleed(), Is.True);
+
             LayerCartPage.ProceedToChekoutButton.Click();
 
-            Assert.That(CartPage.CartTitle.ElementDispleed(), Is.True);
+            Assert.That(CartPage.CartTitle.ElementDisplayed(), Is.True);
         }
         [Test]
         public void CheckCartItemInfo()

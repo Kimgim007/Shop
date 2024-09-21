@@ -36,8 +36,7 @@ namespace Shop.Elements
             Driver.WaitDriver(Driver.GetDriver(), 20).Until(q => q.FindElements(_locator).Count > 0);
         }
         public void WaitForElementVisible()
-        {
-          
+        {        
             Driver.WaitDriver(Driver.GetDriver(), 20).Until(ExpectedConditions.ElementIsVisible(_locator));
         }
         public void WaitForElementElementExists()
@@ -100,6 +99,8 @@ namespace Shop.Elements
         public bool IsInputFocused()
         {
             ScrollToElement();
+            var asd = webElement.Selected;
+            var asdaf = webElement.GetAttribute("checked");
             bool isActive = (bool)((IJavaScriptExecutor)Driver.GetDriver()).ExecuteScript("return document.activeElement === arguments[0];", webElement);
             return isActive;
         }
@@ -112,6 +113,7 @@ namespace Shop.Elements
         {
             ScrollToElement();
             return webElement.Enabled;
+            
         }
         public void ScrollPane(int downPixel)
         {
@@ -121,19 +123,27 @@ namespace Shop.Elements
         public void ScrollToElement()
         {
             ((IJavaScriptExecutor)Driver.GetDriver()).ExecuteScript("arguments[0].scrollIntoView(true);", webElement);
-
+          
         }
         public void MoveToElement()
         {
             action.MoveToElement(webElement).Perform();
-
+            
+            var sad = Driver.GetDriver().Manage().Cookies;
+            //webElement.SendKeys("");
+            //Driver.GetDriver().SwitchTo().Alert();
         }
+        public void ContextMenu()
+        {
+            action.ContextClick(webElement).Perform();
+        }
+       
         public string GetText() => webElement.Text;
         public void ClearField()
         {
             webElement.Clear();
         }
-        public bool ElementDispleed()
+        public bool ElementDisplayed()
         {
             try
             {

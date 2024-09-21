@@ -24,7 +24,7 @@ namespace Shop.Pages
 
         public static void Login()
         {
-            Assert.That(HeaderPage.SingInButton.ElementDispleed(), Is.True);
+            Assert.That(HeaderPage.SingInButton.ElementDisplayed(), Is.True);
             HeaderPage.SingInButton.Click();
 
             SignInEmailField.SentValue(login);

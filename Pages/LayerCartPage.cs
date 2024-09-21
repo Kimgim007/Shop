@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Pages
 {
-    internal class LayerCartPage
+    internal class LayerCartPage:BasePage
     {
         public static Element LayerCart => new Element(By.XPath(" //*[@id='layer_cart']"));
         public static Element Cross => new Element(By.XPath("//*[@class='cross']"));

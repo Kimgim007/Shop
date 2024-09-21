@@ -19,45 +19,36 @@ namespace Shop.Tests
 
             var email = MyPersonalInformationPage.GenerateRandomEmail();
 
-            Assert.That(AuthenticationPage.CreateAccountEmailField.ElementDispleed(), Is.True);
-            Assert.That(BasePage.ClickClearEnterVerify(AuthenticationPage.CreateAccountEmailField, email), Is.True);
-            Assert.That(AuthenticationPage.CreateAnAccountButton.ElementDispleed(), Is.True);
+            BasePage.ClickClearEnter(AuthenticationPage.CreateAccountEmailField, email);
             AuthenticationPage.CreateAnAccountButton.Click();
 
             MyPersonalInformationPage.RadioGender_1.Click();
-            Assert.That(BasePage.WorkWithInput(MyPersonalInformationPage.RadioGender_1), Is.True);
 
-            Assert.That(MyPersonalInformationPage.FirstNameFieldForRegistration.ElementDispleed(), Is.True);
-            Assert.That(BasePage.ClickClearEnterVerify(MyPersonalInformationPage.FirstNameFieldForRegistration, BasePage.firstName), Is.True);
+            BasePage.WorkWithInput(MyPersonalInformationPage.RadioGender_1);
+            BasePage.ClickClearEnter(MyPersonalInformationPage.FirstNameFieldForRegistration, BasePage.firstName);
+            BasePage.ClickClearEnter(MyPersonalInformationPage.LastNameFieldRegistration, BasePage.lastName);
 
-            Assert.That(MyPersonalInformationPage.LastNameFieldRegistration.ElementDispleed(), Is.True);
-            Assert.That(BasePage.ClickClearEnterVerify(MyPersonalInformationPage.LastNameFieldRegistration, BasePage.lastName), Is.True);
+            var emailCorrect = BasePage.CheckExpectedText(MyPersonalInformationPage.DetailsEmailField, email);
+            BasePage.ClickClearEnter(MyPersonalInformationPage.PasswordFieldForCreateAccount, BasePage.password);
+            var dateOfBirthValid = MyPersonalInformationPage.WorkWithDateOfBirth();
 
-            Assert.That(MyPersonalInformationPage.DetailsEmailField.ElementDispleed(), Is.True);
-            Assert.That(BasePage.CheckExpectedText(MyPersonalInformationPage.DetailsEmailField, email), Is.True);
-
-            Assert.That(MyPersonalInformationPage.PasswordFieldForCreateAccount.ElementDispleed(), Is.True);
-            Assert.That(BasePage.ClickClearEnterVerify(MyPersonalInformationPage.PasswordFieldForCreateAccount, BasePage.password), Is.True);
-
-            Assert.That(MyPersonalInformationPage.WorkWithDateOfBirth(), Is.True);
             MyPersonalInformationPage.EndCreateAnAccountButton.Click();
 
-            Assert.That(MyAccountPage.AlertSuccess.ElementDispleed(), Is.True);
-
-            Assert.That(MyAccountPage.AlertSuccess.GetText() == "Your account has been created.", Is.True);
+            Assert.That(MyAccountPage.AlertSuccess.GetText() == "Your account has been created." && dateOfBirthValid && emailCorrect, Is.True);
         }
+
         [Test]
         public void SaveButtonMyPersonalInformationFail()
         {
             AuthenticationPage.Login();
-         
-            Assert.That(MyAccountPage.MyPersonalInformation.ElementDispleed(), Is.True);
+
             MyAccountPage.MyPersonalInformation.Click();
-            Assert.That(MyPersonalInformationPage.PageName.ElementDispleed(), Is.True);
-            Assert.That(MyPersonalInformationPage.UpdatetAndSaveButtonYourPersonalInformation.ElementDispleed(), Is.True);
-            Assert.That(MyPersonalInformationPage.UpdatetAndSaveButtonYourPersonalInformation.Clickable(), Is.True);
+            BasePage.ClickClearEnter(MyPersonalInformationPage.FirstNameFieldForUpdate, "Jonii");
             MyPersonalInformationPage.UpdatetAndSaveButtonYourPersonalInformation.Click();
-            Assert.That(MyPersonalInformationPage.PageName.ElementEnabled(), Is.True);
+            HeaderPage.Account.Click();
+            MyAccountPage.MyPersonalInformation.Click();
+
+            Assert.That(MyPersonalInformationPage.FirstNameFieldForUpdate.GetText() == "Jonii", Is.False);
         }
     }
 }

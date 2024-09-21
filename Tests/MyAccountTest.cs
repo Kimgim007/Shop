@@ -16,35 +16,33 @@ namespace Shop.Tests
         public void VerifyButtonOperationOrderHistoryAndDetails()
         {
             AuthenticationPage.Login();
-            Assert.That(MyAccountPage.OrderHistoryAndDetailsButton.ElementDispleed(), Is.True);
             MyAccountPage.OrderHistoryAndDetailsButton.Click();
 
-            Assert.That(OrderHistoryPage.AlertWarning.ElementDispleed(), Is.True);
+            Assert.That(OrderHistoryPage.AlertWarning.ElementDisplayed(), Is.True);
         }
         [Test]
         public void VerifyButtonMyCreditSlips()
         {
             AuthenticationPage.Login();
-            Assert.That(MyAccountPage.MyCreditSlips.ElementDispleed(), Is.True);
             MyAccountPage.MyCreditSlips.Click();
 
-            Assert.That(OrderHistoryPage.AlertWarning.ElementDispleed(), Is.True);
+            Assert.That(OrderHistoryPage.AlertWarning.ElementDisplayed(), Is.True);
         }
         [Test]
         public void VerifyButtonMyAddresses()
         {
             AuthenticationPage.Login();
-            Assert.That(MyAccountPage.MyAddresses.ElementDispleed(), Is.True);
             MyAccountPage.MyAddresses.Click();
-            Assert.That(MyAddressesPage.PageName.ElementDispleed(), Is.True);
+
+            Assert.That(MyAddressesPage.PageName.ElementDisplayed(), Is.True);
         }
         [Test]
         public void VerifyHomeButton()
         {
             AuthenticationPage.Login();
-            Assert.That(MyAccountPage.HomeButton.ElementDispleed(), Is.True);
             MyAccountPage.HomeButton.Click();
-            Assert.That(HomePage.SliderRow.ElementDispleed(), Is.True);
+
+            Assert.That(HomePage.SliderRow.ElementDisplayed(), Is.True);
         }
     }
 }

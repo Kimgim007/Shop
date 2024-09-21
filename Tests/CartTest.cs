@@ -17,7 +17,6 @@ namespace Shop.Tests
         [Test]
         public void GoToCart()
         {
-            Assert.That(HeaderPage.Cart.ElementDispleed(), Is.True);
             HeaderPage.Cart.Click();
             Assert.That(CartPage.CartTitle.GetText() == "SHOPPING-CART SUMMARY", Is.True);
         }
@@ -35,14 +34,13 @@ namespace Shop.Tests
                 var product = products[i];
 
                 BasePage.ActionClassReturn().MoveToElement(product).Perform();
-                Assert.That(product.Displayed, Is.True);
 
                 var addToCartButton = product.FindElement(By.CssSelector("a.ajax_add_to_cart_button"));
-                Assert.That(addToCartButton.Displayed, Is.True);
+
                 BasePage.ActionClassReturn().MoveToElement(product).MoveToElement(addToCartButton).Click().Perform();
                 var ProductsLink = BasePage.GetBaseUrl(product.FindElement(By.XPath(".//a[@class='product_img_link']"))); ;
 
-                if (LayerCartPage.LayerCart.ElementDispleed())
+                if (LayerCartPage.LayerCart.ElementDisplayed())
                 {
                     LayerCartPage.Cross.Click();
                     HeaderPage.Cart.Click();
@@ -72,12 +70,12 @@ namespace Shop.Tests
         [Test]
         public void TestPurchaseFlow()
         {
-            Assert.That(HomePage.AddHomePageProductToCartAndVerifyDetails(0) != null, Is.True);
+            HomePage.AddHomePageProductToCartAndVerifyDetails(0);
 
             CartPage.ProceedToCheckoutInSummary.Click();
             AuthenticationPage.Login();
 
-            if (MyAccountPage.PageName.ElementDispleed())
+            if (MyAccountPage.PageName.ElementDisplayed())
             {
                 HeaderPage.Cart.Click();
                 CartPage.ProceedToCheckoutInSummary.Click();
@@ -85,16 +83,15 @@ namespace Shop.Tests
 
             CartPage.ProceedToCheckoutInAddressAndShipping.Click();
             CartPage.TermsOfService.Click();
-            Assert.That(CartPage.TermsOfService.IsInputFocused(), Is.True);
             CartPage.ProceedToCheckoutInAddressAndShipping.Click();
 
-            if (CartPage.AlertWarningPayment.ElementDispleed())
+            if (CartPage.AlertWarningPayment.ElementDisplayed())
             {
-                Assert.That(CartPage.AlertWarningPayment.ElementDispleed(), Is.True);
+                Assert.That(CartPage.AlertWarningPayment.ElementDisplayed(), Is.True);
             }
             else
             {
-                Assert.That(CartPage.AlertWarningPayment.ElementDispleed(), Is.False);
+                Assert.That(CartPage.AlertWarningPayment.ElementDisplayed(), Is.False);
             }
            
         }

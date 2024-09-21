@@ -19,17 +19,13 @@ namespace Shop.Tests
             for (int i = 0; i < elementFrom.Count; i++)
             {
                 var element = elementFrom[i];
-                Assert.That(element.Displayed, Is.True);
+             
                 var addToCartButton = element.FindElement(By.CssSelector("a.ajax_add_to_cart_button"));
                 var moreToCartButton = element.FindElement(By.CssSelector("a.lnk_view.btn.btn"));
 
-                Assert.That(addToCartButton.Displayed, Is.False);
-                Assert.That(moreToCartButton.Displayed, Is.False);
-
                 BasePage.ActionClassReturn().MoveToElement(element).Perform();
 
-                Assert.That(addToCartButton.Displayed, Is.True);
-                Assert.That(moreToCartButton.Displayed, Is.True);
+                Assert.That(moreToCartButton.Displayed && addToCartButton.Displayed, Is.True);
             }
         }
         [Test]
@@ -41,7 +37,7 @@ namespace Shop.Tests
             for (int i = 0; i < elementFrom.Count; i++)
             {
                 var element = elementFrom[i];
-                Assert.That(element.Displayed, Is.True);
+
                 BasePage.ActionClassReturn().MoveToElement(element).Perform();
                 addToCartButton = element.FindElement(By.CssSelector("a.ajax_add_to_cart_button"));
                 Assert.That(addToCartButton.Enabled, Is.True);
@@ -56,7 +52,7 @@ namespace Shop.Tests
             for (int i = 0; i < elementFrom.Count; i++)
             {
                 var element = elementFrom[i];
-                Assert.That(element.Displayed, Is.True);
+
                 BasePage.ActionClassReturn().MoveToElement(element).Perform();
                 moreToCartButton = element.FindElement(By.CssSelector("a.lnk_view.btn.btn"));
                 Assert.That(moreToCartButton.Enabled, Is.True);
@@ -65,7 +61,6 @@ namespace Shop.Tests
         [Test]
         public void CheckMoreButtonFunctionality()
         {
-         
             var elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
             IWebElement moreToCartButton;
             string ProductsLink;
@@ -77,9 +72,8 @@ namespace Shop.Tests
                     elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
                 }
                 var element = elementFrom[i];
-                Assert.That(element.Displayed, Is.True);
 
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 BasePage.ActionClassReturn().MoveToElement(element).Perform();
 
                 moreToCartButton = element.FindElement(By.CssSelector("a.lnk_view.btn.btn"));

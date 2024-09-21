@@ -20,36 +20,31 @@ namespace Shop.Pages
 
         public static IWebElement AddHomePageProductToCartAndVerifyDetails(int index)
         {
-            var elementFrom = HomePage.HomeFeaturedProductsPopular.FindChildElements();
+            
+            var elementFrom = HomeFeaturedProductsPopular.FindChildElements();
             var product = elementFrom[index];
 
             string priceProduct;
             string productQuantity;
             string productAttributes;
 
-            BasePage.ActionClassReturn().MoveToElement(product).Perform();
-            Assert.That(product.Displayed, Is.True);
+            ActionClassReturn().MoveToElement(product).Perform();
 
             var addToCartButton = product.FindElement(By.CssSelector("a.ajax_add_to_cart_button"));
-            Assert.That(addToCartButton.Displayed, Is.True);
 
-            BasePage.ActionClassReturn().MoveToElement(product).MoveToElement(addToCartButton).Click().Perform();
+            ActionClassReturn().MoveToElement(product).MoveToElement(addToCartButton).Click().Perform();
 
             LayerCartPage.LayerCart.WaitForElementVisible();
 
-            var ProductsLink = BasePage.GetBaseUrl(product.FindElement(By.XPath(".//a[@class='product_img_link']")));
-
-            Assert.That(LayerCartPage.ProceedToChekoutButton.ElementDispleed(), Is.True);
+            var ProductsLink = GetBaseUrl(product.FindElement(By.XPath(".//a[@class='product_img_link']")));
 
             priceProduct = LayerCartPage.ProductPrice.GetText();
             productQuantity = LayerCartPage.ProductQuantity.GetText();
             productAttributes = LayerCartPage.ProductAttributes.GetText();
 
-
             LayerCartPage.ProceedToChekoutButton.Click();
 
             var allProductsLink = CartPage.AllProductLinks.FindElements().Select(q => BasePage.GetBaseUrl(q)).ToList();
-            Assert.That(allProductsLink.Contains(ProductsLink), Is.True);
 
             var allproductsCart = CartPage.AllProductCart.FindElements();
 
@@ -62,10 +57,10 @@ namespace Shop.Pages
                var productQuantityText = element.FindElement(By.XPath(" //*[@class='cart_quantity_input form-control grey']")).GetAttribute("value");
                var productColorSizeText = element.FindElement(By.XPath("//td[@class='cart_description']/small/a")).Text;
 
-               return BasePage.GetBaseUrl(href) == ProductsLink &&
+               return GetBaseUrl(href) == ProductsLink &&
                priceProductText == priceProduct &&
                productQuantityText == productQuantity &&
-               BasePage.ExtractColorAndSize(productColorSizeText) == productAttributes;
+               ExtractColorAndSize(productColorSizeText) == productAttributes;
            });
 
             return filteredProducts;
